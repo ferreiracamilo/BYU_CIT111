@@ -120,6 +120,15 @@ CREATE TABLE employees (
     CONSTRAINT chk_hourly_pay CHECK(hourly_pay >= 10.00)
 );
 ```
+add constraint after creation
+```sql
+ALTER TABLE employeee
+ADD CONSTRAINT chk_hourly_pay CHECK(hourly_pay >= 10.00);
+```
+drop
+```sql
+DROP CHECK chk_hourly_pay;
+```
 
 ## Delete / Drop Table
 
