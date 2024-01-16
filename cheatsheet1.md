@@ -130,6 +130,16 @@ drop
 DROP CHECK chk_hourly_pay;
 ```
 
+## Default
+
+```sql
+CREATE TABLE transactions (
+    transaction_id INT,
+    amout DECIMAL(5, 2),
+    transaction_date DATETIME DEFAULT NOW()
+);
+```
+
 ## Delete / Drop Table
 
 ```sql
