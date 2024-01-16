@@ -108,6 +108,19 @@ id INT AUTO_INCREMENT,
 );
 ```
 
+## Check Constraint
+add constraint before creation
+```sql
+CREATE TABLE employees (
+    employee_id INT,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    hourly_pay DECIMAL(5,2),
+    hire_date DATE
+    CONSTRAINT chk_hourly_pay CHECK(hourly_pay >= 10.00)
+);
+```
+
 ## Delete / Drop Table
 
 ```sql
