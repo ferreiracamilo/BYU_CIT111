@@ -216,7 +216,30 @@ SELECT fname, mname, lname, dob, dod, country
 FROM artist
 WHERE dob BETWEEN StartYear AND EndYear;
 
+/*Views do not support parameter so it is implemented procedure*/
+CREATE PROCEDURE SelectArtistFromCountry(IN CountrySearch VARCHAR(255))
+SELECT fname, mname, lname, dob, dod
+FROM artist
+WHERE country = CountrySearch;
+
 -- -----------------------------------------------------
 -- For artwork interaction
 -- -----------------------------------------------------
 
+/*Views do not support parameter so it is implemented procedure*/
+CREATE PROCEDURE SelectArtworkByStyle(IN StyleSearch VARCHAR(255))
+SELECT title, year, style, type, file
+FROM artwork
+WHERE style = StyleSearch;
+
+/*Views do not support parameter so it is implemented procedure*/
+CREATE PROCEDURE SelectArtworkByType(IN TypeSearch VARCHAR(255))
+SELECT title, year, style, type, file
+FROM artwork
+WHERE type = TypeSearch;
+
+/*Views do not support parameter so it is implemented procedure*/
+CREATE PROCEDURE SelectArtworkWithinPeriod(IN StartYear INT, IN EndYear INT)
+SELECT title, year, style, type, file
+FROM artwork
+WHERE year BETWEEN StartYear AND EndYear;
