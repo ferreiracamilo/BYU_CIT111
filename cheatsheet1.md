@@ -383,8 +383,45 @@ SELECT age, COUNT(age) FROM users GROUP BY age HAVING count(age) >=2;
 	- But can (sometimes) be used as the target of an INSERT, UPDATE or DELETE statement.
 
 ### View
+Create view Syntax
+```sql
+CREATE VIEW view_name AS
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition;
+```
+Create view example
 ```sql
 CREATE VIEW employee_attendance 
 AS SELECT first_name, last_name 
 FROM employees;
+```
+View execution example
+```sql
+SELECT * FROM [employee_attendance];
+```
+
+### Procedure
+Stored Procedure Syntax
+```sql
+CREATE PROCEDURE procedure_name
+AS
+sql_statement
+GO;
+```
+Execute a Stored Procedure
+```sql
+EXEC procedure_name;
+```
+#### With parameters
+Define a procedure with parameter lead by '@'
+```sql
+CREATE PROCEDURE SelectAllCustomers @City nvarchar(30), @PostalCode nvarchar(10)
+AS
+SELECT * FROM Customers WHERE City = @City AND PostalCode = @PostalCode
+GO;
+```
+Execute procedure with parameters
+```sql
+EXEC SelectAllCustomers @City = 'London', @PostalCode = 'WA1 1DP';
 ```
