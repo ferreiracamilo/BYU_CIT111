@@ -95,7 +95,6 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 -- -----------------------------------------------------
 
-
 USE art_gallery;
 
 /*Insert records into ARTIST table*/
@@ -179,3 +178,45 @@ VALUES
   ((SELECT artwork_id FROM artwork WHERE title = "Women in the Garden"), (SELECT subject_id FROM subject WHERE keyword = "flowers")),
   ((SELECT artwork_id FROM artwork WHERE title = "Old Guitarist"), (SELECT subject_id FROM subject WHERE keyword = "blue")),
   ((SELECT artwork_id FROM artwork WHERE title = "Old Guitarist"), (SELECT subject_id FROM subject WHERE keyword = "people"));
+
+
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Define VIEWS and PROCEDURES
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- For artist interaction
+-- -----------------------------------------------------
+
+/*Generate a 'calculated column' into virtual table provided by view to state if artist is local or not*/
+CREATE VIEW list_artist_a_to_z 
+AS SELECT fname, mname, lname, dob, dod, country, CASE WHEN country = 'United States' THEN "Y" ELSE "N" END AS islocal
+FROM artist
+ORDER BY fname, lname ASC;
+
+/*Generate a 'calculated column' into virtual table provided by view to state if artist is local or not*/
+CREATE VIEW list_artist_sort_by_dob 
+AS SELECT fname, mname, lname, dob, dod, country, CASE WHEN country = 'United States' THEN "Y" ELSE "N" END AS islocal
+FROM artist
+ORDER BY dob ASC;
+
+/*Generate a 'calculated column' into virtual table provided by view to state if artist is local or not*/
+CREATE VIEW list_artist_sort_randomly
+AS SELECT fname, mname, lname, dob, dod, country, CASE WHEN country = 'United States' THEN "Y" ELSE "N" END AS islocal
+FROM artist
+ORDER BY RAND();
+
+/*Views do not support parameter so it is implemented procedure*/
+CREATE PROCEDURE SelectArtistWithinPeriod(IN StartYear INT, IN EndYear INT)
+SELECT fname, mname, lname, dob, dod, country
+FROM artist
+WHERE dob BETWEEN StartYear AND EndYear;
+
+-- -----------------------------------------------------
+-- For artwork interaction
+-- -----------------------------------------------------
+
