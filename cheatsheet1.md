@@ -368,13 +368,6 @@ SELECT age, COUNT(age) FROM users GROUP BY age HAVING count(age) >=2;
 
 ```
 
-## View
-```sql
-CREATE VIEW employee_attendance 
-AS SELECT first_name, last_name 
-FROM employees;
-```
-
 ## STORED PROCEDURES VS VIEWS
 - STORED PROCEDURE
 	- Accepts parameters
@@ -388,3 +381,10 @@ FROM employees;
 	- Can contain only one single SELECT query
 	- Can **NOT** perform modifications to any table
 	- But can (sometimes) be used as the target of an INSERT, UPDATE or DELETE statement.
+
+### View
+```sql
+CREATE VIEW employee_attendance 
+AS SELECT first_name, last_name 
+FROM employees;
+```
