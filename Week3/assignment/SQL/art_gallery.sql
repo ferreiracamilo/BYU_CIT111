@@ -1,12 +1,3 @@
-
--- -----------------------------------------------------
--- -----------------------------------------------------
--- -----------------------------------------------------
--- Create database and tables > DDL
--- -----------------------------------------------------
--- -----------------------------------------------------
--- -----------------------------------------------------
-
 -- MySQL Workbench Forward Engineering
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
@@ -60,8 +51,8 @@ CREATE TABLE IF NOT EXISTS `art_gallery`.`artwork` (
   `file` VARCHAR(60) NOT NULL,
   `artist_id` INT NOT NULL,
   PRIMARY KEY (`artwork_id`, `artist_id`),
-  INDEX `fk_artwork_artist_idx` (`artist_id` ASC) VISIBLE,
-  CONSTRAINT `fk_artwork_artist`
+  INDEX `fk_artwork_artist1_idx` (`artist_id` ASC) VISIBLE,
+  CONSTRAINT `fk_artwork_artist1`
     FOREIGN KEY (`artist_id`)
     REFERENCES `art_gallery`.`artist` (`artist_id`)
     ON DELETE NO ACTION
@@ -74,14 +65,13 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `art_gallery`.`artwork_has_subject` (
   `artwork_id` INT NOT NULL,
-  `artist_id` INT NOT NULL,
   `subject_id` INT NOT NULL,
-  PRIMARY KEY (`artwork_id`, `artist_id`, `subject_id`),
+  PRIMARY KEY (`artwork_id`, `subject_id`),
   INDEX `fk_artwork_has_subject_subject1_idx` (`subject_id` ASC) VISIBLE,
-  INDEX `fk_artwork_has_subject_artwork1_idx` (`artwork_id` ASC, `artist_id` ASC) VISIBLE,
-  CONSTRAINT `fk_artwork_has_subject_artwork1`
-    FOREIGN KEY (`artwork_id` , `artist_id`)
-    REFERENCES `art_gallery`.`artwork` (`artwork_id` , `artist_id`)
+  INDEX `fk_artwork_has_subject_artwork_idx` (`artwork_id` ASC) VISIBLE,
+  CONSTRAINT `fk_artwork_has_subject_artwork`
+    FOREIGN KEY (`artwork_id`)
+    REFERENCES `art_gallery`.`artwork` (`artwork_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_artwork_has_subject_subject1`
@@ -100,7 +90,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 -- -----------------------------------------------------
 -- -----------------------------------------------------
--- Create database and tables > DML
+-- Insert data > DML
 -- -----------------------------------------------------
 -- -----------------------------------------------------
 -- -----------------------------------------------------
@@ -136,3 +126,56 @@ VALUES
 	("Christ"),
 	("food"),
 	("baby");
+
+/*Insert records into ARTWORK table*/
+/*Note that a SELECT is utilized to retrieve the ID, so this insertion is not dependant on a fixed value*/
+INSERT INTO artwork
+  (title,year,style,type,file,artist_id)
+VALUES
+  ("Irises",1889,"Impressionism","Oil","irises.jpg",(SELECT artist_id FROM artist WHERE fname = "Vincent" and lname = "van Gogh")),
+  ("The Starry Night",1889,"Post-Impressionism","Oil","starrynight.jpg",(SELECT artist_id FROM artist WHERE fname = "Vincent" and lname = "van Gogh")),
+  ("Sunflowers",1888,"Post-impressionism","Oil","sunflowers.jpg",(SELECT artist_id FROM artist WHERE fname = "Vincent" and lname = "van Gogh")),
+  ("Night Watch",1642,"Baroque","Oil","nightwatch.jpg",(SELECT artist_id FROM artist WHERE fname = "Rembrandt" and lname = "van Rijn")),
+  ("Storm on the Sea of Galilee",1633,"Dutch Golden Age","Oil","stormgalilee.jpg",(SELECT artist_id FROM artist WHERE fname = "Rembrandt" and lname = "van Rijn")),
+  ("Head of a Woman",1508,"High Renaissance","Oil","headwoman.jpg",(SELECT artist_id FROM artist WHERE fname = "Leonardo" and lname = "da Vinci")),
+  ("Last Supper",1498,"Renaissance","Tempra ","lastsupper.jpg",(SELECT artist_id FROM artist WHERE fname = "Leonardo" and lname = "da Vinci")),
+  ("Mona Lisa",1517,"Renaissance","Oil","monalisa.jpg",(SELECT artist_id FROM artist WHERE fname = "Leonardo" and lname = "da Vinci")),
+  ("Hillside Stream",2005,"Modern","Oil","hillsidestream.jpg",(SELECT artist_id FROM artist WHERE fname = "Venture" and lname = "Coy")),
+  ("Old Barn",1992,"Modern","Oil","oldbarn.jpg",(SELECT artist_id FROM artist WHERE fname = "Venture" and lname = "Coy")),
+  ("Beach Baby",1999,"Modern","Watercolor","beachbaby.jpg",(SELECT artist_id FROM artist WHERE fname = "Deborah" and lname = "Gill")),
+  ("Women in the Garden",1866,"Impressionism","Oil","womengarden.jpg",(SELECT artist_id FROM artist WHERE fname = "Claude" and lname = "Monet")),
+  ("Old Guitarist",1904,"Modern","Oil","guitarist.jpg",(SELECT artist_id FROM artist WHERE fname = "Pablo" and lname = "Picasso"));
+
+/*Insert records into ARTWORK HAS SUBJECT table*/
+INSERT INTO artwork_has_subject
+  (artwork_id, subject_id)
+VALUES
+  ((SELECT artwork_id FROM artwork WHERE title = "Irises"), (SELECT subject_id FROM subject WHERE keyword = "flowers")),
+  ((SELECT artwork_id FROM artwork WHERE title = "The Starry Night"), (SELECT subject_id FROM subject WHERE keyword = "blue")),
+  ((SELECT artwork_id FROM artwork WHERE title = "The Starry Night"), (SELECT subject_id FROM subject WHERE keyword = "landscape")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Sunflowers"), (SELECT subject_id FROM subject WHERE keyword = "flowers")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Night Watch"), (SELECT subject_id FROM subject WHERE keyword = "girl")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Night Watch"), (SELECT subject_id FROM subject WHERE keyword = "people")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Night Watch"), (SELECT subject_id FROM subject WHERE keyword = "battle")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Storm on the Sea of Galilee"), (SELECT subject_id FROM subject WHERE keyword = "boat")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Storm on the Sea of Galilee"), (SELECT subject_id FROM subject WHERE keyword = "water")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Storm on the Sea of Galilee"), (SELECT subject_id FROM subject WHERE keyword = "people")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Storm on the Sea of Galilee"), (SELECT subject_id FROM subject WHERE keyword = "Christ")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Head of a Woman"), (SELECT subject_id FROM subject WHERE keyword = "girl")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Head of a Woman"), (SELECT subject_id FROM subject WHERE keyword = "people")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Last Supper"), (SELECT subject_id FROM subject WHERE keyword = "food")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Last Supper"), (SELECT subject_id FROM subject WHERE keyword = "people")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Last Supper"), (SELECT subject_id FROM subject WHERE keyword = "Christ")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Mona Lisa"), (SELECT subject_id FROM subject WHERE keyword = "girl")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Mona Lisa"), (SELECT subject_id FROM subject WHERE keyword = "people")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Hillside Stream"), (SELECT subject_id FROM subject WHERE keyword = "water")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Hillside Stream"), (SELECT subject_id FROM subject WHERE keyword = "landscape")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Old Barn"), (SELECT subject_id FROM subject WHERE keyword = "landscape")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Beach Baby"), (SELECT subject_id FROM subject WHERE keyword = "water")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Beach Baby"), (SELECT subject_id FROM subject WHERE keyword = "people")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Beach Baby"), (SELECT subject_id FROM subject WHERE keyword = "baby")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Women in the Garden"), (SELECT subject_id FROM subject WHERE keyword = "landscape")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Women in the Garden"), (SELECT subject_id FROM subject WHERE keyword = "people")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Women in the Garden"), (SELECT subject_id FROM subject WHERE keyword = "flowers")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Old Guitarist"), (SELECT subject_id FROM subject WHERE keyword = "blue")),
+  ((SELECT artwork_id FROM artwork WHERE title = "Old Guitarist"), (SELECT subject_id FROM subject WHERE keyword = "people"));
