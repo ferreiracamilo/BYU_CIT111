@@ -121,3 +121,89 @@ LIMIT 1;
 
 Get the average quantity that we have in all our bike stocks. Round to the nearest whole number. 
 */
+
+SELECT ROUND(AVG(quantity)) FROM bike.stock;
+
+/*
+#################################
+        !!! QUERY 9 !!!
+#################################
+
+Show each bike that needs to be reordered. Filter the results to only the lowest quantity of zero.
+Order by product_name The image below show the first 12 of 24 rows total. You don't need to use a LIMIT.
+(Hint for this one: Two different stores have the same bike that needs to be reordered. You only need it to show up once.)
+*/
+
+SELECT DISTINCT(product_name)
+FROM bike.product p
+        JOIN bike.stock s
+        ON p.product_id = s.product_id
+WHERE s.quantity = 0;
+
+/*
+#################################
+        !!! QUERY 10 !!!
+#################################
+
+How many of each category of bikes do we have in stock (inventory) at our "Baldwin Bikes" store,
+which has the store_id of 2. We need to see the name of the category as well as the number of bikes
+we have in inventory in the category. Sort by lowest inventory items first. 
+*/
+
+SELECT c.category_name, SUM(s.quantity) AS "instock"
+FROM bike.product p
+        JOIN bike.stock s
+        ON p.product_id = s.product_id
+        JOIN bike.category c
+        ON p.category_id = c.category_id
+WHERE
+        s.store_id = 2 AND s.quantity > 0
+GROUP BY c.category_name;
+
+/*
+#################################
+        !!! QUERY 11 !!!
+#################################
+
+How many employees do we have? (3 points)
+*/
+
+SELECT COUNT(emp_no) FROM employees.employees;
+
+/*
+#################################
+        !!! QUERY 12 !!!
+#################################
+
+Get the average salaries in each department.
+We only need those departments that have average salaries that are below 60,000.
+Format the salary to 2 decimal places and a comma in the thousands place. 
+*/
+
+SELECT dep.dept_name, FORMAT(AVG(s.salary), 2) AS "average_salary"
+FROM employees.employees e
+        JOIN employees.salaries s
+        ON e.emp_no = s.emp_no
+        JOIN employees.dept_emp demp
+        ON e.emp_no = demp.emp_no
+        JOIN employees.departments dep
+        ON demp.dept_no = dep.dept_no
+GROUP BY dep.dept_name
+HAVING average_salary < 60000;
+
+/*
+#################################
+        !!! QUERY 13 !!!
+#################################
+
+Find out how many females work in each department. Sort by department name.
+*/
+SELECT dep.dept_name, COUNT(e.emp_no)
+FROM employees.employees e
+        JOIN employees.dept_emp demp
+        ON e.emp_no = demp.emp_no
+        JOIN employees.departments dep
+        ON demp.dept_no = dep.dept_no
+WHERE e.gender = 'F'
+GROUP BY dep.dept_name
+ORDER BY dep.dept_name;
