@@ -165,3 +165,29 @@ Magazine Database/Schema
 /*
 List the magazine name and then take 3% off the magazine price and round to 2 decimal places. 
 */
+SELECT magazineName, FORMAT(magazinePrice * 0.97, 2) AS "3% off"
+FROM magazine.magazine;
+
+---!! QUERY 14 !!
+/*
+Show the primary key of id from the subscriber table and using the date of 2020-12-20 as if it were today's date, how long in years,
+ROUNDED to the nearest year, has it been since their subscription started?
+*/
+SELECT subscriberKey, TIMESTAMPDIFF(YEAR, subscriptionStartDate, NOW()) AS YearsDifference
+FROM magazine.subscription;
+
+---!! QUERY 15 !!
+/*
+Show the subscriptionStartDate and subscriptionLength and add the  subscriptionLength to the subscriptionStartDate
+to see the date of how long their subscription will go.
+Format that date so it takes the format of Month name, number day with comma and then a 4 digit year.
+*/
+SELECT subscriptionStartDate, subscriptionLength, DATE_FORMAT(subscriptionStartDate, '%M %e, %Y') AS "Subscription End"
+FROM magazine.subscription;
+
+
+/*
+#################################
+Magazine Database/Schema
+#################################
+*/
