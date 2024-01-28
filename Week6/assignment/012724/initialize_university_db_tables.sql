@@ -244,3 +244,107 @@ VALUES
   (1, 3),
   (8, 9),
   (10, 6);
+
+/*
+################################################
+################################################
+          QUERIES WK6 PROJECT
+################################################
+################################################
+*/
+
+/*
+ !!! QUERY 1 !!!
+Students, and their birthdays, of students born in September.
+Format the date to look like it is shown in the result set. Sort by the student's last name.
+*/
+
+SELECT first_name, last_name, DATE_FORMAT(birthdate, '%M %e, %Y') AS "Sept Birthdays"
+FROM university.student
+WHERE MONTH(birthdate) = 9
+ORDER BY last_name;
+
+/*
+ !!! QUERY 2 !!!
+Student's age in years and days as of Jan. 5, 2017.
+Sorted from oldest to youngest. (You can assume a 365 day year and ignore leap day.)
+Hint: Use modulus for days left over after years. The 5th column is just the 3rd and 4th column combined with labels.
+*/
+SELECT last_name,
+       first_name,
+       TIMESTAMPDIFF(YEAR, birthdate, "2017-01-05") AS "Years",
+       MOD(TIMESTAMPDIFF(DAY, birthdate, '2017-01-05'), 365) AS "Days",
+       CONCAT(
+          TIMESTAMPDIFF(YEAR, birthdate, "2017-01-05"),
+          " - Yrs, ",
+          MOD(TIMESTAMPDIFF(DAY, birthdate, '2017-01-05'), 365),
+          " - Days"
+       ) AS "Years and Days"
+FROM university.student
+ORDER BY birthdate;
+
+/*
+ !!! QUERY 3 !!!
+Students taught by John Jensen. Sorted by student's last name
+*/
+SELECT stu.first_name, stu.last_name
+FROM university.student stu
+  JOIN university.student_enrolls_section ses
+  ON stu.student_id = ses.student_id
+  JOIN university.section sec
+  ON ses.section_id = sec.section_id
+  JOIN university.teacher tea
+  ON tea.teacher_id = sec.teacher_id
+WHERE tea.first_name = "John" AND tea.last_name = "Jensen"
+ORDER BY stu.last_name;
+
+/*
+ !!! QUERY 4 !!!
+Instructors Bryce will have in Winter 2018. Sort by the faculty's last name.
+*/
+SELECT tea.first_name, tea.last_name
+FROM university.student stu
+  JOIN university.student_enrolls_section ses
+  ON stu.student_id = ses.student_id
+  JOIN university.section sec
+  ON ses.section_id = sec.section_id
+  JOIN university.teacher tea
+  ON tea.teacher_id = sec.teacher_id
+  JOIN university.period p
+  ON sec.period_id = p.period_id
+WHERE stu.first_name = "Bryce" AND p.year = 2018 AND p.term = "Winter"
+ORDER BY tea.last_name;
+
+/*
+ !!! QUERY 5 !!!
+Students that take Econometrics in Fall 2019. Sort by student last name.
+*/
+
+/*
+ !!! QUERY 6 !!!
+Report showing all of Bryce Carlson's courses for Winter 2018. Sort by the name of the course.
+*/
+
+/*
+ !!! QUERY 7 !!!
+The number of students enrolled for Fall 2019
+*/
+
+/*
+ !!! QUERY 8 !!!
+The number of courses in each college. Sort by college name.
+*/
+
+/*
+ !!! QUERY 9 !!!
+The total number of students each professor can teach in Winter 2018.
+Sort by that total number of students (teaching capacity).
+*/
+
+/*
+ !!! QUERY 10 !!!
+Each student's total credit load for Fall 2019,
+but only students with a credit load greater than three.
+Sort by credit load in descending order. 
+*/
+
