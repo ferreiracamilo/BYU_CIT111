@@ -319,11 +319,37 @@ ORDER BY tea.last_name;
  !!! QUERY 5 !!!
 Students that take Econometrics in Fall 2019. Sort by student last name.
 */
+SELECT stu.first_name, stu.last_name
+FROM university.student stu
+  JOIN university.student_enrolls_section ses
+  ON stu.student_id = ses.student_id
+  JOIN university.section sec
+  ON ses.section_id = sec.section_id
+  JOIN university.period p
+  ON sec.period_id = p.period_id
+  JOIN university.course c
+  ON sec.course_id = c.course_id
+WHERE p.year = 2019 AND p.term = "Fall" AND c.course_title = "Econometrics" 
+ORDER BY stu.last_name;
 
 /*
  !!! QUERY 6 !!!
 Report showing all of Bryce Carlson's courses for Winter 2018. Sort by the name of the course.
 */
+SELECT d.department_code, c.course_num, c.course_title
+FROM university.student stu
+  JOIN university.student_enrolls_section ses
+  ON stu.student_id = ses.student_id
+  JOIN university.section sec
+  ON ses.section_id = sec.section_id
+  JOIN university.period p
+  ON sec.period_id = p.period_id
+  JOIN university.course c
+  ON sec.course_id = c.course_id
+  JOIN university.department d
+  ON c.department_id = d.department_id
+WHERE p.year = 2018 AND p.term = "Winter" AND stu.first_name = "Bryce" AND stu.last_name = "Carlson"
+ORDER BY c.course_title;
 
 /*
  !!! QUERY 7 !!!
