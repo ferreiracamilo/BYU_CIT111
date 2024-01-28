@@ -155,3 +155,92 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+/*
+################################################
+################################################
+          ADD DATA TO THE DB
+################################################
+################################################
+*/
+
+--DONE
+INSERT INTO university.college
+VALUES
+  (1,"College of Physical Science and Engineering"),
+  (2,"College of Business and Communication"),
+  (3,"College of Language and Letters");
+
+--DONE
+INSERT INTO university.department
+VALUES 
+  (1, "Computer Information Technology", "CIT"),
+  (2, "Economics", "ECON"),
+  (3, "Humanities and Philosophy", "HUM");
+
+--DONE
+INSERT INTO university.course
+VALUES
+  (1, "Intro to Databases", 3, 1, 1, 111),
+  (2, "Econometrics", 4, 2, 2, 388),
+  (3, "Micro Economics", 3, 2, 2, 150),
+  (4, "Classical Heritage", 2, 3, 3, 376);
+
+--DONE
+INSERT INTO university.student
+VALUES
+  (1, "Paul", "Miller", "M", "Dallas", "TX", "1996-02-22"),
+  (2, "Katie", "Smith", "F", "Provo", "UT", "1995-07-22"),
+  (3, "Kelly", "Jones", "F", "Provo", "UT", "1998-06-22"),
+  (4, "Devon", "Merrill", "M", "Mesa", "AZ", "2000-07-22"),
+  (5, "Mandy", "Murdock", "F", "Topeka", "KS", "1996-11-22"),
+  (6, "Alece", "Adams", "F", "Rigby", "ID", "1997-05-22"),
+  (7, "Bryce", "Carlson", "M", "Bozeman", "MT", "1997-11-22"),
+  (8, "Preston", "Larsen", "M", "Decatur", "TN", "1996-09-22"),
+  (9, "Julia",	"Madsen", "F", "Rexburg", "ID", "1998-09-22"),
+  (10, "Susan", "Sorensen", "F", "Mesa", "AZ", "1998-08-09");
+
+--DONE
+INSERT INTO university.teacher
+VALUES
+  (1, "Marty", "Morring", 30),
+  (2, "Nate", "Norris", 50),
+  (3, "Ben", "Barrus", 35),
+  (4, "John", "Jensen", 30),
+  (5, "Bill", "Barney", 35);
+
+--DONE
+INSERT INTO university.period
+VALUES
+  (1, 2019, "Fall"),
+  (2, 2018, "Winter");
+
+INSERT INTO university.section
+VALUES
+  (1, 1, 1, 1, 1),
+  (2, 2, 1, 3, 1),
+  (3, 2, 1, 3, 2),
+  (4, 3, 1, 2, 1),
+  (5, 4, 1, 4, 1),
+  (6, 1, 2, 1, 2),
+  (7, 5, 2, 1, 3),
+  (8, 2, 2, 3, 1),
+  (9, 2, 2, 3, 2),
+  (10, 4, 2, 4, 1);
+
+INSERT INTO university.student_enrolls_section
+VALUES
+  (6, 7),
+  (7, 6),
+  (7, 8),
+  (7, 10),
+  (4, 5),
+  (9, 9),
+  (2, 4),
+  (3, 4),
+  (5, 4),
+  (5, 5),
+  (1, 1),
+  (1, 3),
+  (8, 9),
+  (10, 6);
