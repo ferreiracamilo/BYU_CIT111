@@ -380,7 +380,19 @@ ORDER BY colg.college_name;
  !!! QUERY 9 !!!
 The total number of students each professor can teach in Winter 2018.
 Sort by that total number of students (teaching capacity).
+
+ASSUMPTION DONE: Based on the information given I realize all professors had the same capacity in each wave/batch/section. Besides was stated professor/teacher/faculty
+is the one who assigned the capacity. So capacity was placed within teacher entity thinking was going to be FIX VALUE as data given displayed
 */
+SELECT tea.first_name, tea.last_name, tea.capacity
+FROM university.teacher tea
+  JOIN university.section sec
+  ON sec.teacher_id = tea.teacher_id
+  JOIN university.period p
+  ON sec.period_id = p.period_id
+WHERE p.year = 2018 AND p.term = "Winter"
+GROUP BY tea.first_name, tea.last_name, tea.capacity
+ORDER BY capacity;
 
 /*
  !!! QUERY 10 !!!
@@ -388,4 +400,17 @@ Each student's total credit load for Fall 2019,
 but only students with a credit load greater than three.
 Sort by credit load in descending order. 
 */
-
+SELECT stu.last_name, stu.first_name, SUM(c.credits) AS "Credits"
+FROM university.student stu
+  JOIN university.student_enrolls_section stuenroll
+  ON stuenroll.student_id = stu.student_id
+  JOIN university.section sec
+  ON sec.section_id = stuenroll.section_id
+  JOIN university.period p
+  ON p.period_id = sec.period_id
+  JOIN university.course c
+  ON c.course_id = sec.course_id
+WHERE p.year = 2019 AND p.term = "Fall"
+GROUP BY stu.first_name, stu.last_name
+HAVING Credits > 3
+ORDER BY Credits DESC;
