@@ -164,21 +164,18 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 ################################################
 */
 
---DONE
 INSERT INTO university.college
 VALUES
   (1,"College of Physical Science and Engineering"),
   (2,"College of Business and Communication"),
   (3,"College of Language and Letters");
 
---DONE
 INSERT INTO university.department
 VALUES 
   (1, "Computer Information Technology", "CIT"),
   (2, "Economics", "ECON"),
   (3, "Humanities and Philosophy", "HUM");
 
---DONE
 INSERT INTO university.course
 VALUES
   (1, "Intro to Databases", 3, 1, 1, 111),
@@ -186,7 +183,6 @@ VALUES
   (3, "Micro Economics", 3, 2, 2, 150),
   (4, "Classical Heritage", 2, 3, 3, 376);
 
---DONE
 INSERT INTO university.student
 VALUES
   (1, "Paul", "Miller", "M", "Dallas", "TX", "1996-02-22"),
@@ -200,7 +196,6 @@ VALUES
   (9, "Julia",	"Madsen", "F", "Rexburg", "ID", "1998-09-22"),
   (10, "Susan", "Sorensen", "F", "Mesa", "AZ", "1998-08-09");
 
---DONE
 INSERT INTO university.teacher
 VALUES
   (1, "Marty", "Morring", 30),
@@ -209,7 +204,6 @@ VALUES
   (4, "John", "Jensen", 30),
   (5, "Bill", "Barney", 35);
 
---DONE
 INSERT INTO university.period
 VALUES
   (1, 2019, "Fall"),
