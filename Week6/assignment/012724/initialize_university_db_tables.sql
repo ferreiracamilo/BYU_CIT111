@@ -355,11 +355,26 @@ ORDER BY c.course_title;
  !!! QUERY 7 !!!
 The number of students enrolled for Fall 2019
 */
+SELECT p.term, p.year, COUNT(stu.first_name) AS "Enrollment"
+FROM university.student stu
+  JOIN university.student_enrolls_section ses
+  ON stu.student_id = ses.student_id
+  JOIN university.section sec
+  ON ses.section_id = sec.section_id
+  JOIN university.period p
+  ON sec.period_id = p.period_id
+WHERE p.year = 2019 AND p.term = "Fall";
 
 /*
  !!! QUERY 8 !!!
 The number of courses in each college. Sort by college name.
 */
+SELECT colg.college_name, COUNT(cour.course_id)
+FROM university.course cour
+  JOIN university.college colg
+  ON cour.college_id = colg.college_id
+GROUP BY colg.college_name
+ORDER BY colg.college_name;
 
 /*
  !!! QUERY 9 !!!
