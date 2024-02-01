@@ -29,10 +29,25 @@ and show the original price and then a column with the sales price with a readab
 ##### 2 #####
 */
 
+--ALTERNATIVE 1
+USE bike;
+SELECT product_name, list_price, list_price * 0.8 AS price_with_discount
+FROM product
+WHERE brand_id = 2;
+
+--ALTERNATIVE 2
 USE bike;
 SELECT product_name, list_price, list_price * 0.8 AS price_with_discount
 FROM product
 WHERE brand_id = (SELECT brand_id FROM brand WHERE brand_name = 'Haro');
+
+--ALTERNATIVE 3
+USE bike;
+SELECT product_name, list_price, list_price * 0.8 AS price_with_discount
+FROM product p
+JOIN brand b
+    ON p.brand_id = b.brand_id
+WHERE b.brand_name = 'Haro';
 
 /*
 ##### 3 #####
