@@ -10,7 +10,7 @@ to allow the user to see these images? No join is needed.
 
 SELECT artfile
 FROM v_art.artwork
-WHERE arttype = 'Impressionism';
+WHERE period = 'Impressionism';
 
 /*
 #################################
@@ -91,7 +91,8 @@ FROM employees.employees e
     JOIN employees.departments dep
     ON demp.dept_no = dep.dept_no
 WHERE dep.dept_name = 'Customer Service'
-ORDER BY last_name;
+ORDER BY last_name
+LIMIT 5;
 
 /*
 #################################
@@ -138,7 +139,8 @@ SELECT DISTINCT(product_name)
 FROM bike.product p
         JOIN bike.stock s
         ON p.product_id = s.product_id
-WHERE s.quantity = 0;
+WHERE s.quantity = 0
+ORDER BY product_name;
 
 /*
 #################################
@@ -158,7 +160,8 @@ FROM bike.product p
         ON p.category_id = c.category_id
 WHERE
         s.store_id = 2 AND s.quantity > 0
-GROUP BY c.category_name;
+GROUP BY c.category_name
+ORDER BY instock;
 
 /*
 #################################
@@ -189,7 +192,7 @@ FROM employees.employees e
         JOIN employees.departments dep
         ON demp.dept_no = dep.dept_no
 GROUP BY dep.dept_name
-HAVING average_salary < 60000;
+HAVING AVG(s.salary) < 60000;
 
 /*
 #################################
